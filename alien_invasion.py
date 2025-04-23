@@ -84,6 +84,7 @@ class AlienInvasion:
             self.game_active = True
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()
             # 清空外星⼈列表和⼦弹列表
             self.bullets.empty()
             self.aliens.empty()
@@ -106,6 +107,10 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
 
     def _check_keyup_events(self, event):
         """响应释放"""
@@ -113,6 +118,10 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
 
 
     def _fire_bullet(self):
@@ -160,6 +169,7 @@ class AlienInvasion:
         if self.stats.ship_left >0:
             # 将 ships_left 减 1
             self.stats.ship_left -= 1
+            self.sb.prep_ships()
 
             # 清空外星⼈列表和⼦弹列表
             self.bullets.empty()

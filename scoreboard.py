@@ -7,6 +7,7 @@ class Scoreboard:
     """显⽰得分信息的类"""
     def __init__(self,ai_game):
         """初始化显⽰得分涉及的属性"""
+        self.ai_game = ai_game
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.settings = ai_game.settings
@@ -21,6 +22,7 @@ class Scoreboard:
         self.prep_high_score()
 
         self.prep_level()
+        self.prep_ships()
 
     def prep_score(self):
         """将得分渲染为图像"""
@@ -52,6 +54,8 @@ class Scoreboard:
         self.screen.blit(self.high_score_image,self.high_score_rect)
         self.screen.blit(self.level_image,self.level_rect)
 
+        self.ships.draw(self.screen)
+
     def check_high_score(self):
         """检查是否诞⽣了新的最⾼分"""
         if self.stats.score > self.stats.high_score:
@@ -68,4 +72,13 @@ class Scoreboard:
         self.level_rect = self.level_image.get_rect()
 
         self.level_rect.right = self.score_rect.right
-        self.level_rect.top = self.score_rect.bottom +10    
+        self.level_rect.top = self.score_rect.bottom +10   
+
+    def prep_ships(self):
+        """显⽰还余下多少艘⻜船"""
+        self.ships = Group()
+        for ship_number in range(self.stats.ship_left):
+            ship = Ship(self.ai_game)
+            ship.rect.x = 10+ship_number*ship.rect.width
+            ship.rect.y = 10
+            self.ships.add(ship) 
